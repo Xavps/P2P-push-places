@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule     ^\+(.+)$    index.php/?plus&main_query=$1       [NC,QSA,L]
