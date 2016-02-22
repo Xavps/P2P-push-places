@@ -1,36 +1,63 @@
+<?php
+
+    $welcome_url = 'http://161.202.225.107/+welcome';
+    $push = false;
+
+if( isset($_GET['push']) ){
+    $decrypt_url = 'http://161.202.225.107/+decrypt';
+    if($_GET['code']){
+    $decrypt_url .= '?code='.$_GET['code'].'&push='.urlencode($_GET['push']);
+    }else{
+    $decrypt_url .= '?push='.urlencode($_GET['push']);
+    }
+
+    $push = true;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <title>@xavps #Hackathon Powered by Koding</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="//koding.com/hello/css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+<link rel="stylesheet" href="http://161.202.225.107/assets/css/normalize.css">
+<link rel="stylesheet" href="http://161.202.225.107/assets/css/framework.css">
+<link rel="stylesheet" href="http://161.202.225.107/assets/css/style.css">
+
+<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 <!--[if IE]>
   <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body class="html">
-<div id="container">
-  <div id="main" role="main" class="hellobox">
-    <header><a href="http://koding.com">Koding.com</a></header>
-    <h1>Hello World!</h1>
-    <h2>From @XAVPS</h2>
-  </div>
-  <footer>
-    <h4>This is an example page running plain HTML on your Koding Virtual Machine (VM). This web page is being served by the apache web server.</h4>
-	<p>
-	To learn more about how we have
-	configured the apache, you should <a href="https://koding.com/docs/where-is-my-web-server-root" target=_blank>read this simple guide</a>.
-	</p>
-	<p>
-	You can create your own simple HTML/web page "Hello World" either by changing this file (index.html) or by adding a new file in the
-	"Web" directory found inside the home directory of your user account on the VM (/home/your_username/Web).
-	<p>
-		Also visit our <a href="https://koding.com/docs" target=_blank>Koding Documentation</a> for a ton of interesting content on how you can do amazing things with Koding!
-	</p>
-    <p id="social"><a id="twitter" href="https://twitter.com/koding" target=_blank>Twitter</a><a id="facebook" href="https://facebook.com/koding" target=_blank>Facebook</a></p>
-  </footer>
-</div>
+<section class="w-section mobile-wrapper">
+
+    <div class="page-content xavps-content" id="main-stack" xavps-scroll="0" xavps-splash="2999" xavps-redirect="<?php echo ($push) ? $decrypt_url : $welcome_url; ?>" xavps-decrypt="<?php echo ($push) ? 'true' : 'false'; ?>" >
+      <div class="w-nav navbar"></div>
+      <div class="body padding">
+        <div class="splash-logo"></div>
+        <div class="bottom-section padding text-centered">
+          <h4>Now Loading ...</h4>
+          <p class="welcome-splash-text">PUSH TO START</p>
+          <div class="separator-big"></div>
+          <div class="link-upper">BY @XAVPS</div>
+          <div class="separator-bottom"></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-content loading-mask" id="new-stack">
+      <div class="loading-icon">
+        <div class="navbar-button-icon icon ion-load-d"></div>
+      </div>
+    </div>
+    <div class="shadow-layer"></div>
+  </section>
 </body>
+<script src="http://161.202.225.107/hack.app.js"></script>
 </html>

@@ -1,35 +1,36 @@
 <?php
 // My own cool Backend-asa-Service 
+include('api.config.php');
 
-$apiDemo = array(
-    'title' => 'Loaded by AJAX',
-    'url' => '/+welcome',
-    'body' => '
-
-<div id="container" xavps-splash="4987" xavps-redirect="http://161.202.225.107/api/" class="xavps-content">
-  <div id="main" role="main" class="hellobox">
-    <header><a href="http://koding.com">Koding.com</a></header>
-    <h1>WELCOME WORLD!</h1>
-    <h2>From @XAVPS</h2>
-  </div>
-  <footer>
-    <h4>This is an example page running plain HTML on your Koding Virtual Machine (VM). This web page is being served by the apache web server.</h4>
-	<p>
-	To learn more about how we have
-	configured the apache, you should <a href="https://koding.com/docs/where-is-my-web-server-root" target=_blank>read this simple guide</a>.
-	</p>
-	<p>
-	You can create your own simple HTML/web page "Hello World" either by changing this file (index.html) or by adding a new file in the
-	"Web" directory found inside the home directory of your user account on the VM (/home/your_username/Web).
-	<p>
-		Also visit our <a href="https://koding.com/docs" target=_blank>Koding Documentation</a> for a ton of interesting content on how you can do amazing things with Koding!
-	</p>
-    <p id="social"><a id="twitter" href="https://twitter.com/koding" target=_blank>Twitter</a><a id="facebook" href="https://facebook.com/koding" target=_blank>Facebook</a></p>
-  </footer>
+$route = explode('/', $_GET['main_query']);
+if(isset( $viewID[$route[0]]) ){
     
-    '
-    );
+    $out = load_response( $viewID[$route[0]] );
+}else{
+    $out = array(
+        'id' => 'NOTFOUND',
+        'title' => 'API Route not found',
+        'url' => '/#ERROR/NOTFOUND/'.$route[0],
+        'body' => '<h1 class="text-centeres">ROUTE NOT FOUND</h1>',
+        'filename' => '_views/view.welcome.php');
+    die(json_encode($out, true));
+}
 
-die(json_encode($apiDemo, true));
+function load_response ( $obj ){
+
+    $file = $obj['filename'];
+    if( isset($obj['include']) && $obj['include'] ){
+        include($file);
+    }
+    $filehandler = file_get_contents($file, "rb") or die("ERROR READING FILE $file");
+    $response = $obj;
+    unset($response['filename']);
+    $response['body'] = $filehandler;
+    fclose($filehandler);
+    return $response;
+}
+
+
+die(json_encode($out, true));
 
 ?>
